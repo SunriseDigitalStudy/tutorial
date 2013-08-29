@@ -1,12 +1,12 @@
 routes:
-#  sample:
-#    route:          /:placeholder/:controller/:action
-#    defaults:
-#      module:       default
-#      controller:   index
-#      action:       index
-#    reqs:
-#      placeholder:     '[a-z]{2}'
+  sample:
+    route:          /thread/:thread_id/:action
+    defaults:
+      module:       default
+      controller:   thread
+      action:       index
+    reqs:
+      thread_id:     '[0-9]+'
 
 #  regex_sample:
 #    type:         Zend_Controller_Router_Route_Regex
