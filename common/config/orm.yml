@@ -14,7 +14,7 @@ board_master:
     account:
       relations:
         - type:       one_many
-          table:      thread
+          table:      entry
           references: id
           foreign:    account_id
 

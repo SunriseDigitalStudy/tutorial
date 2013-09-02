@@ -84,10 +84,10 @@ class FooController extends Sdx_Controller_Action_Http
 		//簡単なJOIN
 		//JOIN対象のテーブルを全て生成
 		$t_account = Bd_Orm_Main_Account::createTable();
-		$t_thread = Bd_Orm_Main_Thread::createTable();
+		$t_entry = Bd_Orm_Main_Entry::createTable();
 
 		//INNER JOIN
-		$t_account->addJoinInner($t_thread);
+		$t_account->addJoinInner($t_entry);
 
 		//selectを取得するメソッドがgetSelectWithJoinなので注意
 		$select = $t_account->getSelectWithJoin();
