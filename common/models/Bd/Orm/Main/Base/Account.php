@@ -87,17 +87,17 @@ abstract class Bd_Orm_Main_Base_Account extends Bd_Db_Record
         return $this->_set('password', $value);
     }
 
-    public function getRole()
+    public function getName()
     {
-        return $this->_get('role');
+        return $this->_get('name');
     }
 
     /**
      * @return Bd_Orm_Main_Account
      */
-    public function setRole($value)
+    public function setName($value)
     {
-        return $this->_set('role', $value);
+        return $this->_set('name', $value);
     }
 
     public function getUpdatedAt()

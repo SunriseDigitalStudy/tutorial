@@ -53,14 +53,14 @@ abstract class Bd_Orm_Main_Base_Form_Account extends Sdx_Form
     /**
      * @return Sdx_Form_Element
      */
-    public static function createRoleElement()
+    public static function createNameElement()
     {
-        return new Sdx_Form_Element_Text(array('name'=>'role'));
+        return new Sdx_Form_Element_Text(array('name'=>'name'));
     }
 
-    public static function createRoleValidator(Sdx_Form_Element $element)
+    public static function createNameValidator(Sdx_Form_Element $element)
     {
-        $element->addValidator(new Sdx_Validate_NotEmpty());
+        $element->addValidator(new Sdx_Validate_NotEmpty());$element->addValidator(new Sdx_Validate_StringLength(array('max'=>45)));
     }
 
     protected function _init()
@@ -88,11 +88,11 @@ abstract class Bd_Orm_Main_Base_Form_Account extends Sdx_Form
         	call_user_func(array('Bd_Orm_Main_Form_Account', 'createPasswordValidator'), $element);
         }
         
-        if(!in_array('role', $this->_except_list))
+        if(!in_array('name', $this->_except_list))
         {
-        	$element = call_user_func(array('Bd_Orm_Main_Form_Account', 'createRoleElement'));
+        	$element = call_user_func(array('Bd_Orm_Main_Form_Account', 'createNameElement'));
         	$this->setElement($element);
-        	call_user_func(array('Bd_Orm_Main_Form_Account', 'createRoleValidator'), $element);
+        	call_user_func(array('Bd_Orm_Main_Form_Account', 'createNameValidator'), $element);
         }
     }
 

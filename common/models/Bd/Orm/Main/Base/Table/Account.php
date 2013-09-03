@@ -9,7 +9,7 @@ abstract class Bd_Orm_Main_Base_Table_Account extends Bd_Db_Table
         'id',
         'login_id',
         'password',
-        'role',
+        'name',
         'updated_at',
         'created_at'
         );
