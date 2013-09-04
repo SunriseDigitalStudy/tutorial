@@ -1,0 +1,1 @@
+mysql -u root < /home/source/sites/board/common/database/sql/create_tables.sql
