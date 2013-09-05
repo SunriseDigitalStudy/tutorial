@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<title>Secure Deny</title>
-	</head>
-	<body>
-		<p>You are not authorized to access this page.</p>
-	</body>
-</html>
+{extends file='default/base.tpl'}
+{block title append} 権限がありません{/block}
+{block main_contents}
+<div class="alert alert-warning">権限がありません</div>
+{/block}

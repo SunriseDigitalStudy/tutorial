@@ -17,6 +17,11 @@
 			content: "\f14a";
 			font-family: FontAwesome;
 		}
+
+		.has-id .icon-user{
+			color: #fff;
+		}
+
 	</style>
 	{block css}{/block}
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -29,6 +34,23 @@
 		<div class="container">
 			<div class="navbar-header">
 				<a class="navbar-brand" href="/"><i class="icon-comments-alt text-warning"></i>&nbsp;Board</a>
+			</div>
+			<div class="collapse navbar-collapse navbar-ex1-collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown{if $sdx_context->getUser()->hasId()} has-id{/if}">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<i class="icon-user icon-large"></i> <b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu">
+							{if $sdx_context->getUser()->hasId()}
+							<li class="dropdown-header">{$sdx_context->getUser()->getLoginId()}</li>
+							<li><a href="/secure/logout"><i class="icon-signout"></i> ログアウト</a></li>
+							{else}
+							<li><a href="/secure/login"><i class="icon-signin"></i> ログイン</a></li>
+							{/if}
+						</ul>
+					</li>
+				</ul>
 			</div>
 		</div>
 	</header>
