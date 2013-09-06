@@ -46,6 +46,8 @@
 							<li class="dropdown-header">{$sdx_context->getUser()->getLoginId()}</li>
 							<li><a href="/secure/logout"><i class="icon-signout"></i> ログアウト</a></li>
 							{else}
+							<li><a href="/account/create"><i class="icon-plus-sign-alt"></i> ユーザー登録</a>
+							</li>
 							<li><a href="/secure/login"><i class="icon-signin"></i> ログイン</a></li>
 							{/if}
 						</ul>

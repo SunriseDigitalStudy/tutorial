@@ -27,5 +27,10 @@ class Bd_Orm_Main_Account extends Bd_Orm_Main_Base_Account
 	{
 		return $this->getPassword() === self::hashPassword($raw_password);
 	}
+
+	public function getRole()
+	{
+		return 'user';
+	}
 }
 

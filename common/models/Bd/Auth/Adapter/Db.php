@@ -27,6 +27,6 @@ class Bd_Auth_Adapter_Db extends Sdx_Auth_Adapter_Db_Variable
 	protected function _getRole(Sdx_Db_Record $record)
 	{
 		//今回はRoleを扱わないのでuserを返しておきます。
-		return 'user';
+		return $record->getRole();
 	}
 }
