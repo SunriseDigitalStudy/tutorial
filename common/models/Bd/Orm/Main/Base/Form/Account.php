@@ -47,7 +47,7 @@ abstract class Bd_Orm_Main_Base_Form_Account extends Sdx_Form
 
     public static function createPasswordValidator(Sdx_Form_Element $element)
     {
-        $element->addValidator(new Sdx_Validate_NotEmpty());$element->addValidator(new Sdx_Validate_StringLength(array('max'=>255)));
+        $element->addValidator(new Sdx_Validate_StringLength(array('max'=>255)));
     }
 
     /**

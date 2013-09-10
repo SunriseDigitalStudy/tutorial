@@ -4,33 +4,38 @@ require_once 'Bd/Orm/Main/Base/Account.php';
 
 class Bd_Orm_Main_Account extends Bd_Orm_Main_Base_Account
 {
-	const PWD_ALGO = 'sha256';
+  private $_raw_password;
 
-	public static function hashPassword($raw_password)
-	{
-		$hashed_pwd = hash(self::PWD_ALGO, $raw_password);
-		foreach(array('GBw$t6C_', '[~[@-].P', '4.yWn!Q!', 'Z!UV)]Bn', 'uPT{>,+$') as $salt)
-		{
-			$hashed_pwd = hash(self::PWD_ALGO, $salt.$hashed_pwd);
-		}
+  public function setRawPassword($raw_password)
+  {
+    $this->_raw_password = $raw_password;
+    return $this;
+  }
 
-		return $hashed_pwd;
-	}
+  public function save(Sdx_Db_Adapter $db = null, $recursive = false)
+  {
+    if($this->_raw_password !== null)
+    {
+      if($this->isNew())
+      {
+        if($this->_raw_password)
+        {
+          $this->setPassword('temp');
+        }
 
-	public function setRawPassword($raw_password)
-	{
-		$this->setPassword(self::hashPassword($raw_password));
-		return $this;
-	}
+        parent::save($db, $recursive);
+      }
 
-	public function isMatchPassword($raw_password)
-	{
-		return $this->getPassword() === self::hashPassword($raw_password);
-	}
+      $this->setPassword(Bd_Util_Encrypt::calcPassword($this->getId(), $this->_raw_password));
+    	$this->_raw_password = null;
+    }
 
-	public function getRole()
-	{
-		return 'user';
-	}
+    parent::save($db, $recursive);
+  }
+
+  public function getRole()
+  {
+    return 'user';
+  }
 }
 
