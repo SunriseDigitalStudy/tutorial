@@ -1,49 +1,69 @@
 <?php
 class Bd_Controller_Plugin_AutoLogin extends Sdx_Controller_Plugin_AutoLogin
 {
-	/**
-	*
-	* @return Zend_Auth_Adapter_Interface
-	* @param string $cookie
-	*/
-	protected function _getAutoLoginAdapter($token)
-	{
-		return new Bd_Auth_Adapter_DbAutoLogin($token);
-	}
-	
-	protected function _preClearCookie(Sdx_User $user, $id)
-	{
-		if($id)
-		{
-			$rec = Bd_Orm_Main_AutoLogin::getTable()->findByPkey($id);
-			if(!$rec instanceof Sdx_Null)
-			{
-				$rec->beginTransaction();
-				$rec->delete();
-				$rec->commit();
-			}
-		}
-	}
-	
-	protected function _saveAutoLoginId(Sdx_User $user, $id)
-	{
-		$record = Bd_Orm_Main_Account::getTable()->findByColumn('login_id', $user->getLoginId());
+  /**
+   *
+   * @return Zend_Auth_Adapter_Interface
+   * @param string $cookie
+   */
+  protected function _getAutoLoginAdapter($token)
+  {
+    return new Bd_Auth_Adapter_DbAutoLogin($token);
+  }
 
-		if($record instanceof Sdx_Null)
-		{
-			throw new Sdx_Exception('Not exists login id is '.$user->getLoginId());
-		}
+  /**
+   * サーバー側のトークンの削除を実装して下さい。
+   * @param string $token 
+   */
+  protected function _cleanUpOldToken($token)
+  {
+    $t_al = Bd_Orm_Main_AutoLogin::getTable();
+    $db = $t_al->updateConnection();
+    $db->beginTransaction();
+    try
+    {
+      $db->delete($t_al->getTableName(), $db->quoteInto('hash = ?', $token));
+      $db->commit();
+    }
+    catch (Exception $e)
+    {
+      $db->rollback();
+      throw $e;
+    }
+  }
+  
+  /**
+   * $tokenとアカウントを関連付けて保存します。
+   * @param Sdx_User $user
+   * @param string $token
+   */
+  protected function _saveAutoLoginId(Sdx_User $user, $token)
+  {
+    $record = Bd_Orm_Main_Account::getTable()->findByColumn('login_id', $user->getLoginId());
 
-		$today = new Zend_Date();
+    if($record instanceof Sdx_Null)
+    {
+      throw new Sdx_Exception('Not exists login id is '.$user->getLoginId());
+    }
 
-		$user->setAttribute('auto_login_expire', $this->_cookie_expire);
-		$al = new Bd_Orm_Main_AutoLogin();
-		$al
-			->setHash($id)
-			->setAccountId($record->getId())
-			->setExpireDate($today->addSecond($this->_cookie_expire)->toString("yyyy-MM-dd HH:mm:ss"))
-			->beginTransaction();
-		$al->save();
-		$al->commit();
-	}
+    $today = new Zend_Date();
+
+    $al = new Bd_Orm_Main_AutoLogin();
+    $al
+      ->setHash($token)
+      ->setAccountId($record->getId())
+      ->setExpireDate($today->addSecond($this->_cookie_expire)->toString("yyyy-MM-dd HH:mm:ss"));
+
+    $al->beginTransaction();
+    try
+    {
+      $al->save();
+      $al->commit();
+    }
+    catch (Exception $e)
+    {
+      $al->rollback();
+      throw $e;
+    }
+  }
 }

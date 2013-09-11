@@ -23,7 +23,7 @@ ENGINE = InnoDB;
 CREATE  TABLE IF NOT EXISTS `board`.`account` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `login_id` VARCHAR(120) NOT NULL ,
-  `password` VARCHAR(255) NOT NULL ,
+  `password` VARCHAR(255) NULL ,
   `name` VARCHAR(45) NOT NULL ,
   `updated_at` DATETIME NOT NULL ,
   `created_at` DATETIME NOT NULL ,
@@ -51,6 +51,23 @@ CREATE  TABLE IF NOT EXISTS `board`.`entry` (
     ON DELETE CASCADE
     ON UPDATE RESTRICT,
   CONSTRAINT `fk_entry_account1`
+    FOREIGN KEY (`account_id` )
+    REFERENCES `board`.`account` (`id` )
+    ON DELETE CASCADE
+    ON UPDATE RESTRICT)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `board`.`auto_login`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `board`.`auto_login` (
+  `hash` VARCHAR(190) NOT NULL ,
+  `account_id` INT NOT NULL ,
+  `expire_date` DATETIME NOT NULL ,
+  PRIMARY KEY (`hash`) ,
+  INDEX `fk_auto_login_account1_idx` (`account_id` ASC) ,
+  CONSTRAINT `fk_auto_login_account1`
     FOREIGN KEY (`account_id` )
     REFERENCES `board`.`account` (`id` )
     ON DELETE CASCADE

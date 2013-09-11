@@ -4,34 +4,21 @@ require_once 'Bd/Orm/Main/Base/Account.php';
 
 class Bd_Orm_Main_Account extends Bd_Orm_Main_Base_Account
 {
-  private $_raw_password;
-
-  public function setRawPassword($raw_password)
-  {
-    $this->_raw_password = $raw_password;
-    return $this;
-  }
-
-  public function save(Sdx_Db_Adapter $db = null, $recursive = false)
-  {
-    if($this->_raw_password !== null)
-    {
-      if($this->isNew())
-      {
-        if($this->_raw_password)
-        {
-          $this->setPassword('temp');
-        }
-
-        parent::save($db, $recursive);
-      }
-
-      $this->setPassword(Bd_Util_Encrypt::calcPassword($this->getId(), $this->_raw_password));
-    	$this->_raw_password = null;
+	public static function hashPassword($raw_password)
+	{
+		$salt = 'NoG70PKuxcY6t6c0jgR+675F0y5N5a/aDcjp16R65kI=2eOnXGUJZiaZgnNz7BPlesy5uSr86MGhEuJPD7UP/uE=lMppqWLCZOJYMNtM9w0EAvSGJFDdcTH6Q50By7JFXsE=';
+    $value = '';
+    for($i = 0; $i < 10000; ++$i){
+      $value = hash('sha256', $value . $raw_password . $salt);
     }
+    return $value;
+	}
 
-    parent::save($db, $recursive);
-  }
+	public function setRawPassword($raw_password)
+	{
+		$this->setPassword(self::hashPassword($raw_password));
+		return $this;
+	}
 
   public function getRole()
   {
