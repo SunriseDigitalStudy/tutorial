@@ -2,14 +2,14 @@
 
 require_once 'Bd/Db/Table.php';
 
-abstract class Bd_Orm_Main_Base_Table_Thread extends Bd_Db_Table
+abstract class Bd_Orm_Main_Base_Table_Genre extends Bd_Db_Table
 {
 
     private static $_columns = array(
         'id',
-        'genre_id',
-        'title',
-        'created_at'
+        'code',
+        'type',
+        'sequence'
         );
 
     private static $_dbnames = array(
@@ -21,13 +21,13 @@ abstract class Bd_Orm_Main_Base_Table_Thread extends Bd_Db_Table
 
     private static $_update_connection = null;
 
-    private static $_name = 'thread';
+    private static $_name = 'genre';
 
     private static $_swap_name = null;
 
-    private static $_record_class_name = 'Bd_Orm_Main_Thread';
+    private static $_record_class_name = 'Bd_Orm_Main_Genre';
 
-    protected static $_class_suffix = 'Thread';
+    protected static $_class_suffix = 'Genre';
 
     private static $_nullable = array();
 
@@ -42,28 +42,12 @@ abstract class Bd_Orm_Main_Base_Table_Thread extends Bd_Db_Table
         if(is_null(self::$_relations))
         {
         	self::$_relations = array();
-        	self::$_relations['Genre'] = Sdx_Db_Relation::create(
-        		Sdx_Db_Relation::TYPE_MANY_ONE,
-        		'Genre',
-        		'Thread',
-        		array('reference'=>'genre_id', 'foreign'=>'id'),
-        		'Bd_Orm_Main_Genre',
-        		null
-        	);
-        	self::$_relations['Tag'] = Sdx_Db_Relation::create(
-        		Sdx_Db_Relation::TYPE_MANY_MANY,
-        		'Tag',
-        		'Thread',
-        		array('reference'=>'id', 'foreign'=>'thread_id'),
-        		'Bd_Orm_Main_Tag',
-        		'Bd_Orm_Main_ThreadTag'
-        	);
-        	self::$_relations['ThreadTag'] = Sdx_Db_Relation::create(
+        	self::$_relations['Thread'] = Sdx_Db_Relation::create(
         		Sdx_Db_Relation::TYPE_ONE_MANY,
-        		'ThreadTag',
         		'Thread',
-        		array('reference'=>'id', 'foreign'=>'thread_id'),
-        		'Bd_Orm_Main_ThreadTag',
+        		'Genre',
+        		array('reference'=>'id', 'foreign'=>'genre_id'),
+        		'Bd_Orm_Main_Thread',
         		null
         	);
         }
@@ -113,7 +97,7 @@ abstract class Bd_Orm_Main_Base_Table_Thread extends Bd_Db_Table
     }
 
     /**
-     * @return Bd_Orm_Main_Table_Thread
+     * @return Bd_Orm_Main_Table_Genre
      */
     public function swapReferenceConnection(Sdx_Db_Adapter $db)
     {
@@ -135,7 +119,7 @@ abstract class Bd_Orm_Main_Base_Table_Thread extends Bd_Db_Table
     }
 
     /**
-     * @return Bd_Orm_Main_Table_Thread
+     * @return Bd_Orm_Main_Table_Genre
      */
     public function swapUpdateConnection(Sdx_Db_Adapter $db)
     {
@@ -144,7 +128,7 @@ abstract class Bd_Orm_Main_Base_Table_Thread extends Bd_Db_Table
     }
 
     /**
-     * @return Bd_Orm_Main_Table_Thread
+     * @return Bd_Orm_Main_Table_Genre
      */
     public function clearConnections()
     {
@@ -174,7 +158,7 @@ abstract class Bd_Orm_Main_Base_Table_Thread extends Bd_Db_Table
     }
 
     /**
-     * @return Bd_Orm_Main_Thread
+     * @return Bd_Orm_Main_Genre
      */
     public function createRecord()
     {

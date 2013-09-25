@@ -37,6 +37,32 @@ abstract class Bd_Orm_Main_Base_Form_Thread extends Sdx_Form
         $element->addValidator(new Sdx_Validate_NotEmpty());$element->addValidator(new Sdx_Validate_StringLength(array('max'=>80)));
     }
 
+    /**
+     * @return Sdx_Form_Element
+     */
+    public static function createGenreIdElement()
+    {
+        return new Sdx_Form_Element_Text(array('name'=>'genre_id'));
+    }
+
+    public static function createGenreIdValidator(Sdx_Form_Element $element)
+    {
+        $element->addValidator(new Sdx_Validate_NotEmpty());
+    }
+
+    /**
+     * @return Sdx_Form_Element
+     */
+    public static function createMMTagIdElement()
+    {
+        return new Sdx_Form_Element_Text(array('name'=>'Tag__id'));
+    }
+
+    public static function createTagIdValidator(Sdx_Form_Element $element)
+    {
+        
+    }
+
     protected function _init()
     {
         $this->setName('thread');
@@ -53,6 +79,22 @@ abstract class Bd_Orm_Main_Base_Form_Thread extends Sdx_Form
         	$element = call_user_func(array('Bd_Orm_Main_Form_Thread', 'createTitleElement'));
         	$this->setElement($element);
         	call_user_func(array('Bd_Orm_Main_Form_Thread', 'createTitleValidator'), $element);
+        }
+        
+        
+        
+        if(!in_array('genre_id', $this->_except_list))
+        {
+        	$element = call_user_func(array('Bd_Orm_Main_Form_Thread', 'createGenreIdElement'));
+        	$this->setElement($element);
+        	call_user_func(array('Bd_Orm_Main_Form_Thread', 'createGenreIdValidator'), $element);
+        }
+        
+        if(!in_array('Tag__id', $this->_except_list))
+        {
+        	$element = call_user_func(array('Bd_Orm_Main_Form_Thread', 'createMMTagIdElement'));
+        	$this->setElement($element);
+        	call_user_func(array('Bd_Orm_Main_Form_Thread', 'createTagIdValidator'), $element);
         }
     }
 
