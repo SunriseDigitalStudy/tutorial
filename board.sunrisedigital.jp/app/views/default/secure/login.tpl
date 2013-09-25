@@ -14,6 +14,11 @@
 				{$form.password->setLabel('パスワード')->renderLabel() nofilter}
 				{$form.password->render([class=>"form-control", placeholder=>$form.password->getLabel()]) nofilter}
 			</div>
+			<div class="form-group">
+				<div class="checkbox">
+					{$form[$auto_login_cookie]->setLabel("次回は自動でログイン")->renderWithLabel() nofilter}
+				</div>
+			</div>
 			<div class="text-center">
 				<input type="submit" name="submit" name="Login" class="btn btn-success" >
 			</div>

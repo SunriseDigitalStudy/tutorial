@@ -1,32 +1,68 @@
 <?php
 /**
- *
- * @author  Masamoto Miyata <gomocoro@gmail.com>
- * @create  2011/12/21
- * @copyright 2010 Sincere co.
+ * データベースを使うログインに使用します。使わない場合はSdx_Auth_Adapterを継承して下さい。
  **/
-class Bd_Auth_Adapter_Db extends Sdx_Auth_Adapter_Db_Variable
+class Bd_Auth_Adapter_Db extends Sdx_Auth_Adapter_Db2
 {
-	public function __construct($login_id, $password)
-	{
-		parent::__construct($login_id, $password, array('Bd_Orm_Main_Account', 'hashPassword'));
-	} 
-	
-	//@return Sdx_Db_Record
-	protected function _getUserRecordWithDb(Sdx_Db_Adapter $db = null)
-	{
-		$t_account = Bd_Orm_Main_Account::getTable();
-		return $t_account->findByColumn('login_id', $this->_login_id, $db);
-	}
-	
-	protected function _getPassword(Sdx_Db_Record $record)
-	{
-		return $record->getPassword();
-	}
-	
-	protected function _getRole(Sdx_Db_Record $record)
-	{
-		//今回はRoleを扱わないのでuserを返しておきます。
-		return 'user';
-	}
+  /**
+   * 入力されたログインID
+   * @var string
+   */
+  private $_login_id;
+
+  /**
+   * 生パスワード
+   * @var string
+   */
+  private $_password;
+
+  /**
+   * コンストラクタ
+   * @param string $login_id 入力されたログインID
+   * @param string $password 生パスワード
+   */
+  public function __construct($login_id, $password)
+  {
+    $this->_login_id = $login_id;
+    $this->_password = $password;
+  } 
+
+  /**
+   * アカウントのデータを検索して返す
+   * この段階ではまだパスワードチェックはしません。
+   * @return boolean|mixed
+   */
+  protected function _find()
+  {
+    $t_account = Bd_Orm_Main_Account::getTable();
+    $account = $t_account->findByColumn('login_id', $this->_login_id, $this->getDb());
+    if (!$account instanceof Bd_Orm_Main_Account)
+    {
+      //アカウントが見つからなかったが、
+      //サイドチャネル攻撃対策として同程度の時間掛けるためにパスワード計算処理を行う
+      Bd_Orm_Main_Account::hashPassword('timing attack guard');
+      return false;
+    }
+
+    return $account;
+  }
+
+  /**
+   * パスワードが一致しているか検証する
+   * @param Bd_Orm_Main_Account $account
+   * @return bool|array
+   */
+  protected function _auth($account)
+  {
+    if (Bd_Orm_Main_Account::hashPassword($this->_password) != $account->getPassword())
+    {
+      //パスワードが一致しない
+      return false;
+    }
+
+    return array(
+      'id' => $account->getId(),
+      'login_id' => $account->getLoginId(),
+    );
+  }
 }

@@ -18,6 +18,11 @@ board_master:
           references: id
           foreign:    account_id
 
+        - type:       one_many
+          table:      auto_login
+          references: id
+          foreign:    account_id
+
 #  tables:
 #    table_name:
 #      const:
