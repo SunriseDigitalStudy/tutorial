@@ -43,21 +43,12 @@ form:
     Tag__id:
       settings:   {label: タグ}
 
-# grouping:
-#   name:      ジャンル
-#   model:
-#     name:    Bd_Orm_Main_Genre
-#     method:  fetchAll
-#     display: name
-#   strict:    true
-
-# grouping:
-#   name:      ジャンル
-#   class:
-#     model:   Bd_Orm_Main_Const_Thread
-#     method:  getGenreList
-#     target:  genre_id
-#   strict:    true
+grouping:
+  fixed:
+    target:    genre_id
+    class:
+      model:   Bd_Orm_Main_Const_Thread
+      display:  getGenreCode
 
 
 #リスト用の設定
