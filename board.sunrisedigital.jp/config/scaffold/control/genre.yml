@@ -1,0 +1,28 @@
+model:        Bd_Orm_Main_Genre
+page_name:    ジャンル
+
+form:
+  sequence:
+    column:      sequence
+    direction:   ASC
+  fields:
+    id:
+      settings:
+        label: ID
+    name:
+      settings:
+        label: タイトル
+
+list:
+  display:
+    - label:     <i class="icon-edit"></i>編集
+      action:    edit
+
+    - label:     ID
+      column:    id
+
+    - label:     タイトル
+      column:    name
+
+    - label:     削除
+      action:    delete
