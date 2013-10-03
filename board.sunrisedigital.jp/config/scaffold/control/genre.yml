@@ -24,5 +24,8 @@ list:
     - label:     タイトル
       column:    name
 
+    - label:     スレッド編集
+      html:      <a href="/control/thread?group=%record:id%">スレッド編集&nbsp;<i class="icon-chevron-right"></i></a>
+
     - label:     削除
       action:    delete
