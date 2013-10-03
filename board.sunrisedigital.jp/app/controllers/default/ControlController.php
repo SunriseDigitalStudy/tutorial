@@ -9,4 +9,6 @@ class ControlController extends Sdx_Controller_Action_Http
 		$this->_helper->scaffold->run();
 	}
 
+  
+
 }

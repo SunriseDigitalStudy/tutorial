@@ -7,13 +7,31 @@ CREATE SCHEMA IF NOT EXISTS `board` DEFAULT CHARACTER SET utf8 COLLATE utf8_gene
 USE `board` ;
 
 -- -----------------------------------------------------
+-- Table `board`.`genre`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `board`.`genre` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(45) NOT NULL ,
+  `sequence` INT UNSIGNED NOT NULL ,
+  PRIMARY KEY (`id`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `board`.`thread`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `board`.`thread` (
   `id` INT NOT NULL AUTO_INCREMENT ,
+  `genre_id` INT UNSIGNED NOT NULL ,
   `title` VARCHAR(80) NOT NULL ,
   `created_at` DATETIME NOT NULL ,
-  PRIMARY KEY (`id`) )
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_thread_genre1_idx` (`genre_id` ASC) ,
+  CONSTRAINT `fk_thread_genre1`
+    FOREIGN KEY (`genre_id` )
+    REFERENCES `board`.`genre` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -72,6 +90,38 @@ CREATE  TABLE IF NOT EXISTS `board`.`auto_login` (
     REFERENCES `board`.`account` (`id` )
     ON DELETE CASCADE
     ON UPDATE RESTRICT)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `board`.`tag`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `board`.`tag` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(45) NOT NULL ,
+  PRIMARY KEY (`id`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `board`.`thread_tag`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `board`.`thread_tag` (
+  `thread_id` INT NOT NULL ,
+  `tag_id` INT UNSIGNED NOT NULL ,
+  PRIMARY KEY (`thread_id`, `tag_id`) ,
+  INDEX `fk_thread_has_tag_tag1_idx` (`tag_id` ASC) ,
+  INDEX `fk_thread_has_tag_thread1_idx` (`thread_id` ASC) ,
+  CONSTRAINT `fk_thread_has_tag_thread1`
+    FOREIGN KEY (`thread_id` )
+    REFERENCES `board`.`thread` (`id` )
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_thread_has_tag_tag1`
+    FOREIGN KEY (`tag_id` )
+    REFERENCES `board`.`tag` (`id` )
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 USE `board` ;
