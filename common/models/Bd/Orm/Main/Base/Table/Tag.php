@@ -2,14 +2,12 @@
 
 require_once 'Bd/Db/Table.php';
 
-abstract class Bd_Orm_Main_Base_Table_Thread extends Bd_Db_Table
+abstract class Bd_Orm_Main_Base_Table_Tag extends Bd_Db_Table
 {
 
     private static $_columns = array(
         'id',
-        'title',
-        'created_at',
-        'genre_id'
+        'name'
         );
 
     private static $_dbnames = array(
@@ -21,13 +19,13 @@ abstract class Bd_Orm_Main_Base_Table_Thread extends Bd_Db_Table
 
     private static $_update_connection = null;
 
-    private static $_name = 'thread';
+    private static $_name = 'tag';
 
     private static $_swap_name = null;
 
-    private static $_record_class_name = 'Bd_Orm_Main_Thread';
+    private static $_record_class_name = 'Bd_Orm_Main_Tag';
 
-    protected static $_class_suffix = 'Thread';
+    protected static $_class_suffix = 'Tag';
 
     private static $_nullable = array();
 
@@ -42,27 +40,19 @@ abstract class Bd_Orm_Main_Base_Table_Thread extends Bd_Db_Table
         if(is_null(self::$_relations))
         {
         	self::$_relations = array();
-        	self::$_relations['Tag'] = Sdx_Db_Relation::create(
+        	self::$_relations['Thread'] = Sdx_Db_Relation::create(
         		Sdx_Db_Relation::TYPE_MANY_MANY,
+        		'Thread',
         		'Tag',
-        		'Thread',
-        		array('reference'=>'id', 'foreign'=>'thread_id'),
-        		'Bd_Orm_Main_Tag',
+        		array('reference'=>'id', 'foreign'=>'tag_id'),
+        		'Bd_Orm_Main_Thread',
         		'Bd_Orm_Main_ThreadTag'
-        	);
-        	self::$_relations['Genre'] = Sdx_Db_Relation::create(
-        		Sdx_Db_Relation::TYPE_MANY_ONE,
-        		'Genre',
-        		'Thread',
-        		array('reference'=>'genre_id', 'foreign'=>'id'),
-        		'Bd_Orm_Main_Genre',
-        		null
         	);
         	self::$_relations['ThreadTag'] = Sdx_Db_Relation::create(
         		Sdx_Db_Relation::TYPE_ONE_MANY,
         		'ThreadTag',
-        		'Thread',
-        		array('reference'=>'id', 'foreign'=>'thread_id'),
+        		'Tag',
+        		array('reference'=>'id', 'foreign'=>'tag_id'),
         		'Bd_Orm_Main_ThreadTag',
         		null
         	);
@@ -113,7 +103,7 @@ abstract class Bd_Orm_Main_Base_Table_Thread extends Bd_Db_Table
     }
 
     /**
-     * @return Bd_Orm_Main_Table_Thread
+     * @return Bd_Orm_Main_Table_Tag
      */
     public function swapReferenceConnection(Sdx_Db_Adapter $db)
     {
@@ -135,7 +125,7 @@ abstract class Bd_Orm_Main_Base_Table_Thread extends Bd_Db_Table
     }
 
     /**
-     * @return Bd_Orm_Main_Table_Thread
+     * @return Bd_Orm_Main_Table_Tag
      */
     public function swapUpdateConnection(Sdx_Db_Adapter $db)
     {
@@ -144,7 +134,7 @@ abstract class Bd_Orm_Main_Base_Table_Thread extends Bd_Db_Table
     }
 
     /**
-     * @return Bd_Orm_Main_Table_Thread
+     * @return Bd_Orm_Main_Table_Tag
      */
     public function clearConnections()
     {
@@ -174,7 +164,7 @@ abstract class Bd_Orm_Main_Base_Table_Thread extends Bd_Db_Table
     }
 
     /**
-     * @return Bd_Orm_Main_Thread
+     * @return Bd_Orm_Main_Tag
      */
     public function createRecord()
     {
