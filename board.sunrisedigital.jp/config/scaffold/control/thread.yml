@@ -32,8 +32,8 @@ grouping:
       display: name
 
 list:
+  filter:        Bd_Scaffold_Filter_Thread
   per_page:      10
-  method:        fetchAllNewerOrdered
   display:
     - label:     <i class="icon-edit"></i>編集
       action:    edit
