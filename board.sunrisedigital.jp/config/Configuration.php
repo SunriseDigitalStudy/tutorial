@@ -13,6 +13,7 @@ class Configuration extends Bd_Configuration
 {
   protected function _init(Sdx_Context $context)
   {
+    $context->enableNoCacheMode();
     //Helperのオートロードは後にセットされたprefixから優先的に検索されます。
     Zend_Controller_Action_HelperBroker::addPrefix('Sdx_Controller_Action_Helper');
     Zend_Controller_Action_HelperBroker::addPrefix('%NAMESPACE%_Controller_Action_Helper');

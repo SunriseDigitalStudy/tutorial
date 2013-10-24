@@ -35,20 +35,18 @@ list:
   filter:        Bd_Scaffold_Filter_Thread
   per_page:      10
   display:
-    - label:     <i class="icon-edit"></i>編集
-      action:    edit
-
     - label:     ID
       column:    id
+      style:     width:60px;
 
     - label:     タイトル
       column:    title
+      style:     width:31%;min-width:200px;
 
     - label:     ジャンル
       column:    genre.name
+      style:     width:120px;
 
     - label:     登録日時
       column:    created_at
-
-    - label:     削除
-      action:    delete
+      style:     width:160px;

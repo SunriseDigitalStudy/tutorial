@@ -3,6 +3,11 @@
 
 class ControlController extends Sdx_Controller_Action_Http
 {
+  public function preDispatch()
+  {
+    $this->_getContext()->enableNoCacheMode();
+  }
+
   public function threadAction()
   {
     $this->_helper->scaffold->setViewRendererPath('default/control/scaffold.tpl');
@@ -51,9 +56,20 @@ class ControlController extends Sdx_Controller_Action_Http
     Sdx_Debug::dump($params, 'hookAfterRecordSave');
   }
 
+  public function genreListAction()
+  {
+    $this->_helper->scaffold->setViewRendererPath('default/control/scaffold.tpl');
+    $this->_helper->scaffold->runList('/control/genre-edit', 'scaffold/default/control/genre');
+  }
+
+  public function genreEditAction()
+  {
+    $this->_helper->scaffold->setViewRendererPath('default/control/scaffold.tpl');
+    $this->_helper->scaffold->runEdit('/control/genre-list', 'scaffold/default/control/genre');
+  }
+
   public function __call($name, $arguments)
   {
-    $this->_getContext()->enableNoCacheMode();
     $this->_helper->scaffold->setViewRendererPath('default/control/scaffold.tpl');
     $this->_helper->scaffold->run();
   }

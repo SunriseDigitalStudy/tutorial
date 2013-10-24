@@ -8,6 +8,7 @@
 {/block}
 
 {block css append}
+{include 'sdx/include/scaffold/css.tpl'}
 <link rel="stylesheet" type="text/css" href="/css/sdx/scaffold.bootstrap.css">
 {/block}
 
