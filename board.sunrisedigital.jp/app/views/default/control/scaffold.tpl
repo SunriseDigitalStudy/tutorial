@@ -10,6 +10,7 @@
 {block css append}
 {include 'sdx/include/scaffold/css.tpl'}
 <link rel="stylesheet" type="text/css" href="/css/sdx/scaffold.bootstrap.css">
+<!-- <link rel="stylesheet" type="text/css" href="/css/sdx/scaffold.css"> -->
 {/block}
 
 {block main_contents}{include 'sdx/include/scaffold/html.tpl'}{/block}

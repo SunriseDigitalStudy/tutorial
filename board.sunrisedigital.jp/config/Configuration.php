@@ -22,7 +22,6 @@ class Configuration extends Bd_Configuration
   protected function _initHttp(Sdx_Context $context)
   {
     parent::_initHttp($context);
-    
     //If you want to register other auto load namespase, Remove this comment out.
     //$context->registerAutoloadNamespace('Other');
     

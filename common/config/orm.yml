@@ -25,16 +25,21 @@ board_master:
 
     thread:
       relations:
+        - type:       many_one
+          table:      genre
+          references: genre_id
+          foreign:    id
+
+        - type:       one_many
+          table:      entry
+          references: id
+          foreign:    thread_id
+
         - type:       many_many
           table:      tag
           mid_table:  thread_tag
           references: id
           foreign:    thread_id
-
-        - type:       many_one
-          table:      genre
-          references: genre_id
-          foreign:    id
 
     tag:
       relations:
@@ -43,6 +48,8 @@ board_master:
           mid_table:  thread_tag
           references: id
           foreign:    tag_id
+
+
 
 #  tables:
 #    table_name:
@@ -59,7 +66,7 @@ board_master:
 #          value: id
 #          valueの名前にcodeのカラムの値をつけてconstの名前を生成します。ex:ID_SYSTEM,ID_ADMIN
 #      base_class:
-#        record:        Bd_Db_Record_Someting
+#        record:        Bd_Db_Record_Something
 #      relations:
 #        - type:       ref_one
 #          table:      target_table_name
